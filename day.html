@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nurse Ruth Medical Game</title> <!-- Updated title -->
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- Your custom CSS (style.css) -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav id="menu" class="navbar px-3 navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#"><img id="logo" src="logo1.jpg" alt="Nurse Ruth Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse " id="nav-menu">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="play.html">Games</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Subscribe</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content Section -->
+  <div id="body_day" class="">
+    <div class="content row">
+      <div class="container scoreboard mb-5 row col-lg-12 col-sm-12 col-md-12">
+        <div class="text-white col p-3">
+          <h5 class="text-dark">your points</h5>
+          <div class="progress">
+            <div class="progress-bar bg-yellow" id="nurse-score" role="progressbar" style="width: 25%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div><span id="nurseLabel" class="text-dark mx-1">25%</span>
+          </div>
+        </div>
+      </div>
+      <div class="row bg-white p-4 border play-menu col-lg-12 col-sm-12 col-md-12">
+        <label>Scene</label>
+        <p class="text-dark" id="story"></p>  
+        <button onclick="selectOption(this)" class="btn btn-primary mt-2 answer" id="answer1"></button>
+        <button onclick="selectOption(this)" class="btn btn-primary mt-2 answer" id="answer2"></button>
+        <button onclick="selectOption(this)" class="btn btn-primary mt-2 answer" id="answer3"></button>
+        <button onclick="selectOption(this)" class="btn btn-primary mt-2 answer" id="answer4"></button>
+      </div>
+      <button id="restart_mid" class="btn mt-5 btn-danger restart">Restart Game</button>
+    </div>
+  </div>
+  <!-- Game Over Menu -->
+<div id="gameover" class="d-none">
+  <div class="card text-center">
+    <div class="card-header">
+      <h5 class="card-title">Game Over</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Scene Scores</h6>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Score: <strong id="endscore">1000</strong></li>
+      <li class="list-group-item">Creativity: <strong id="endcreative">still undating</strong></li>
+      <li class="list-group-item">Errors: <strong id="enderror">5</strong></li>
+      <li class="list-group-item">Advice: <strong id="endadvice">Keep practicing!</strong></li>
+    </ul>
+    <div class="card-body">
+      <p class="card-text">Thank you for playing! Better luck next time.</p>
+      <button id="restart_over" class="btn mt-5 btn-danger restart">Restart Game</button>
+    </div>
+  </div>
+</div>
+
+  
+<!-- Add Bootstrap JS and Popper.js CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Your custom JavaScript (script.js) -->
+  <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
