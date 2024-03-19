@@ -415,7 +415,7 @@ restart_over.addEventListener("click", () => {
 restart_mid.addEventListener("click", () => {
     currentScene = "scene1"
     index = 1
-    nurseScore
+    nurseScore = 0
     displayScene()
 })
 // Initial display
