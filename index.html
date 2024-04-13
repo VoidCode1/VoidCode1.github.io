@@ -3,45 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nurse Ruth Medical Game</title> <!-- Updated title -->
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <!-- Your custom CSS (style.css) -->
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+  <title>Student Validation</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-body {
+      padding: 1.25rem;
+    }
+    .card-footer {
+      background-color: #f8f9fa;
+    }
+  </style>
 </head>
-<body class="container">
-  <!-- Navigation Bar -->
-  <nav id="menu" class="px-3 navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="index.html"><img id="logo" src="logo1.jpg" alt="Nurse Ruth Logo"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-menu" aria-controls="nav-menu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="nav-menu">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="play.html">Games</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Subscribe</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-      </ul>
-    </div>
-  </nav>
+<body>
 
-  <!-- Main Content Section -->
-  <div id="home_page" class="content text-center">
-    <h1><b>Nurse Ruth <br> Medical Game</b></h1> <!-- Updated heading -->
-    <p class="word-animation"><span class="unleash rounded p-1">Unleash your medical skills!</span> <br><span class="heart text-danger">&#x2764;</span></p>
-    <a href="play.html"><button class="btn btn-primary start">Play</button></a>
-    <p><span class="key">Entertain</span> yourself with AI-powered educational games.</p>
+<div class="container">
+  <h1 class="mt-5 mb-4">Finalist Student Validation</h1>
+  
+  <!-- Cards to display student information -->
+  <div class="row" id="studentCards">
+    <!-- Cards will be dynamically populated here -->
   </div>
+</div>
 
-
-<!-- Add Bootstrap JS and Popper.js CDN -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Function to populate student cards (sample data for now)
+  function populateStudentCards() {
+    var students = [
+      { index: 1, nrc: '12345', email: 'example1@gmail.com', name: 'John Doe', photo: 'img1.jpg', description: 'The files are all validated and the student can continue to exams.' },
+      { index: 2, nrc: '67890', email: 'example2@gmail.com', name: 'Jane Smith', photo: 'img2.jpg', description: 'All documents are verified. Student is eligible for finals.' }
+    ];
+
+    var cardsHtml = '';
+    students.forEach(function(student) {
+      cardsHtml += `
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="${student.photo}" class="card-img-top" alt="${student.name}">
+          <div class="card-body">
+            <h5 class="card-title">${student.name}</h5>
+            <p class="card-text">Index: <span class="index">${student.index}</span></p>
+            <p class="card-text">NRC: <span class="nrc">${student.nrc}</span></p>
+            <p class="card-text">Email: <span class="email">${student.email}</span></p>
+            <p class="card-text">Description: <span class="description">${student.description}</span></p>
+          </div>
+          <div class="card-footer text-center">
+            <button class="btn btn-primary mr-2 editBtn">Edit</button>
+            <button class="btn btn-secondary mr-2 saveBtn" style="display: none;">Save</button>
+            <button class="btn btn-secondary mr-2 undoBtn" style="display: none;">Undo</button>
+            <button class="btn btn-danger deleteBtn">Delete</button>
+          </div>
+        </div>
+      </div>
+      `;
+    });
+
+    $('#studentCards').html(cardsHtml);
+
+    // Add event listeners for buttons
+    $('.editBtn').click(function() {
+      var cardBody = $(this).closest('.card').find('.card-body');
+      cardBody.find('span').hide();
+      cardBody.find('input').show();
+      $(this).hide();
+      $(this).siblings('.saveBtn, .undoBtn').show();
+    });
+
+    $('.saveBtn').click(function() {
+      var cardBody = $(this).closest('.card').find('.card-body');
+      cardBody.find('span').show();
+      cardBody.find('input').hide();
+      $(this).hide();
+      $(this).siblings('.editBtn').show();
+      $(this).siblings('.undoBtn').hide();
+    });
+
+    $('.undoBtn').click(function() {
+      var cardBody = $(this).closest('.card').find('.card-body');
+      cardBody.find('span').show();
+      cardBody.find('input').hide();
+      $(this).hide();
+      $(this).siblings('.saveBtn').hide();
+      $(this).siblings('.editBtn').show();
+    });
+
+    $('.deleteBtn').click(function() {
+      $(this).closest('.col-md-4').remove();
+    });
+  }
+
+  // Call the function to populate student cards
+  populateStudentCards();
+</script>
 
 </body>
 </html>

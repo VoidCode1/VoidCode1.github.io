@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration Page</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  .floating-chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+  }
+  .header {
+    background-color: #004a99; /* Dark blue header */
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .form-group button {
+    width: 100%;
+    padding: 10px;
+    background-color: #0056b3; /* Blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .form-group button:hover {
+    background-color: #003d7a;
+  }
+  .footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f4f4f4;
+  }
+  .hidden {
+    display: none;
+  }
+  #chat-window {
+            width: 100%;
+            height: 100vh;
+            overflow-y: auto; /* Enable vertical scrollbar */
+            padding: 10px; /* Add padding to keep messages away from edges */
+        }
+</style>
+</head>
+<body>
+
+
+    <!-- Login Form -->
+  <div class="login-container" id="login-form">
+    <h2>Login to Your Account</h2>
+    <span id='notify-login-success' style='display:none;'>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfull Registered!</strong> Head over to your email.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </span>
+    <span id='notify-login-error' style='display:none;'>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfull Registered!</strong> Head over to your email.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </span>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email-login">Email Address</label>
+        <input type="email" id="email-login">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password">
+      </div>
+      <div class="form-group">
+        <button type="submit">Sign In</button>
+      </div>
+    </form>
+    <p><a href="#" onclick="showForm('forgot-pass-form')">Did you forget your password?</a></p>
+    <p><a href="#" onclick="showForm('registration-form')">Sign Up For Online Services</a></p>
+    <span id="student-data"></span>
+  </div>
+
+
+
+  <!-- Forgot Password Form -->
+  <div class="login-container hidden" style="display:none;" id="forgot-pass-form">
+    <h2>Reset Your Password</h2>
+    <form>
+      <div class="form-group">
+        <label for="reset-email">Email Address</label>
+        <input type="email" id="reset-email" required>
+      </div>
+      <div class="form-group">
+        <button type="submit">Reset Password</button>
+      </div>
+    </form>
+    <p><a href="#" onclick="showForm('login-form')">Back to Login</a></p>
+  </div>
+
+
+  <!-- Registration Form -->
+  <div class="login-container" style="display:none;" id="registration-form">
+    <h2>Register for an Account</h2>
+    <span id='notify-register-success' style='display:none;'>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfull Registered!</strong> Head over to your email.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </span>
+    <span id='notify-register-error' style='display:none;'>
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfull Registered!</strong> Head over to your email.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </span>
+    <form id="registrationForm">
+      <div class="form-group">
+        <label for="index">Index Number or Registration Number</label>
+        <input type="text" id="index" required>
+      </div>
+      <div class="form-group">
+        <label for="nrc">NRC</label>
+        <input type="text" id="nrc" required>
+      </div>
+      <div class="form-group">
+        <label for="email-register">Email Address</label>
+        <input type="email" id="email-register" required>
+      </div>
+       <div class="form-group">
+        <label for="password-register">Password</label>
+        <input type="password" id="password-register" required>
+      </div>
+      <div class="form-group">
+        <label for="cadre">Cadre</label>
+        <select id="cadre" required>
+          <option value="">Select Cadre</option>
+          <option value="student">Student</option>
+          <option value="practitioner">Practitioner</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="submit">Register</button>
+      </div>
+    </form>
+    <p><a href="#" onclick="showForm('login-form')">Back to Login</a></p>
+  </div>
+  
+  
+  
+  <!-- Floating Chatbot Button -->
+  <button type="button" class="btn btn-info floating-chatbot-btn" data-bs-toggle="modal" data-bs-target="#chatbotModal">
+    Chat with us!
+  </button>
+  
+  
+  
+    <!-- Chatbot Modal -->
+  <div class="modal fade" id="chatbotModal" tabindex="-1" aria-labelledby="chatbotModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chatbotModalLabel">NMCZ Chat Assistant</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">close</button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        Chat Window
+                    </div>
+                    <div class="card-body" id="chat-window">
+                        <div id="chat-messages"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="input-container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" id="prompt-input" class="form-control" placeholder="Enter your prompt...">
+                    <button class="btn btn-primary" type="button" onclick="sendPrompt()">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <script src="main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Initialize the history array
+    let history = [];
+
+    function sendPrompt() {
+        const promptInput = document.querySelector("#prompt-input");
+        const chatMessages = document.querySelector("#chat-messages");
+        const promptText = promptInput.value.trim();
+
+        if (promptText) {
+            // Clear input field
+            promptInput.value = '';
+
+            // Display user's prompt in chat window
+            const userMessage = `<div class="alert alert-primary" role="alert">${promptText}</div>`;
+            chatMessages.innerHTML += userMessage;
+
+            // Add user input to history
+            history.push({ user: promptText });
+
+            // Perform API action with the entered prompt
+            performAPIAction(promptText);
+        }
+    }
+
+    function performAPIAction(prompt) {
+        const chatMessages = document.querySelector("#chat-messages");
+
+        
+    // Convert history to a string format suitable for the prompt
+    const historyString = history.map(entry => {
+        return entry.user ? `User: ${entry.user}` : `Bot: ${entry.bot}`;
+    }).join('\\n');
+
+    axios.post('https://api.together.xyz/v1/chat/completions', {
+        "model": "mistralai/Mistral-7B-Instruct-v0.1",
+        "max_tokens": 4002,
+        "prompt": `[INST] your task is to answer user questions related to nmcz registration on their website
+Registration Form Information:
+          index, nrc, email, weather a student or work nurse and password
+FAQS:
+          q:how do i register for an account with nmcz?
+          a:click on the registration link and enter your information. you will need to have a few document after enter the form which will be entered in your portal. Have a pdf or image(jpg,png) of your mock results and payment slips each as a separate file less then 1MB, you can search for a compression app or websitr on google.
+          q:i have registered
+          a:wait for an email to be sent, if not come back to reenter a working email
+          q:after registering i did not get an email
+          a:you probably entered the wrong email address, please send me your correct email address i update for your, do you still remember your password? kindly send your NRC number i do the reset
+          q:i sent the wrong files to the database can you remove them
+          a:send me the names of the files you wish to change and the upload the updated files. name the files accordly e.g mock results should be named mockresults.png so that i can tell which file is which. I am not using vision models at the moment.
+
+          
+please provide your nrc number, and recheck your email for error, did you mean emucoolbuta@gmail.com
+          
+ , do not mention that your a bot \n HERE the chat history\n${historyString}\\n\nHERE the new text to respond to\n${prompt}  [/INST]`, 
+        "temperature": 0.7,
+        "top_p": 0.7,
+        "top_k": 50,
+        "repetition_penalty": 1,
+        "stream_tokens": true,
+        "stop": [
+            "[/INST]",
+            "</s>"
+        ],
+        "repetitive_penalty": 1,
+        "update_at": "2024-03-22T04:49:22.595Z"
+    }, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer b68a5fc346d7fbc2f48f6777b1dfbc38c991902b3f02b5914ab592580cc76ca6'
+        }
+    })
+        .then(response => {
+            const responseData = response.data.trim();
+
+            // Add API output to history
+            
+
+            const dataArray = responseData.split('\n');
+            alert("data got")
+            const texts = dataArray.map(item => {
+                const match = item.match(/\"text\":\"(.*?)\"/);
+                return match ? match[1].replace(/\\n/g, '<br>') : null;
+            }).filter(Boolean);
+
+            // Concatenate text strings together
+            const responseText = texts.join('');
+          					history.push({ bot: responseText });
+
+            // Display response in chat window as a single message
+            const responseMessage = `<div class="alert alert-warning" role="alert">${responseText}</div>`;
+            chatMessages.innerHTML += responseMessage
+            // Scroll to bottom of chat window
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(error => {
+            const errorMessage = `<div class="alert alert-danger" role="alert">${error.message}</div>`;
+            chatMessages.innerHTML += errorMessage;
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="module">
+
+
+      import { GoogleGenerativeAI } from "@google/generative-ai";
+
+      // Fetch your API_KEY
+      const API_KEY = 'AIzaSyCo4qbHAQVcTZ0wOpL_xBkwXM4XUn6Y4C4'
+      // Access your API key (see "Set up your API key" above)
+      const genAI = new GoogleGenerativeAI(API_KEY);
+      // Converts a File object to a GoogleGenerativeAI.Part object.
+      async function fileToGenerativePart(file) {
+        const base64EncodedDataPromise = new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result.split(',')[1]);
+          reader.readAsDataURL(file);
+        });
+        return {
+          inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
+        };
+      }
+
+      async function runVision() {
+        
+      const generationConfig = {
+          stopSequences: ["reply:"],
+          maxOutputTokens:9000,
+          temperature: 0.9,
+          topP: 0.1,
+          topK: 16,
+        };
+
+        const model = genAI.getGenerativeModel({ model: "gemini-pro-vision",  generationConfig });
+
+        const prompt = document.getElementById("prompt").value;
+
+        const fileInputEl = document.querySelector("#file");
+        const imageParts = await Promise.all(
+          [...fileInputEl.files].map(fileToGenerativePart)
+        );
+
+        const result = await model.generateContent([prompt, ...imageParts]);
+        const response = await result.response;
+        const text = response.text();
+        return text
+      }
+
+      async function runText(prompt) {
+        
+      const generationConfig = {
+          stopSequences: ["reply:"],
+          maxOutputTokens:9000,
+          temperature: 0.9,
+          topP: 0.1,
+          topK: 16,
+        };
+
+        const model = genAI.getGenerativeModel({ model: "gemini-pro",  generationConfig });
+
+
+        const result = await model.generateContent([prompt]);
+        const response = await result.response;
+        const text = response.text();
+        return text
+      }
+    </script>
+</body>
+</html>
