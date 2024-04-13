@@ -69,7 +69,7 @@ async function getData() {
     // Stringify the data before assigning to innerHTML
     return JSON.stringify(data);
   } catch (error) {
-    alert('Error fetching data: ' + error.message);
+      ('Error fetching data: ' + error.message);
     return null;
   }
 }
@@ -83,7 +83,6 @@ function validateLoginWithApiData(apiData) {
     // Convert apiData to an array
   const dataArray = apiData;
 // Initialize a variable to store the user data
-    alert(apiData)
   var user = null;
 
   // Loop through the array of data to find the user with the matching email
@@ -128,7 +127,6 @@ async function validateLoginForm() {
 }
 
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
-  alert("submitting");
   event.preventDefault();
   await validateLoginForm();
 });
