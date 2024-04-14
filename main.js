@@ -14,8 +14,6 @@ async function getData() {
     'x-apikey': apiKey
   };
 
-  const dataDase = document.getElementById("student-data");
-
   try {
     const response = await fetch(url, {
       method: 'GET',
@@ -109,3 +107,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   event.preventDefault();
   await validateLoginForm();
 });
+
+
+

@@ -30,21 +30,74 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script src="main.js"></script>
 <script>
-  // Function to populate student cards (sample data for now)
-  function populateStudentCards() {
-    var students = [
-      { index: 1, nrc: '12345', email: 'example1@gmail.com', name: 'John Doe', photo: 'img1.jpg', description: 'The files are all validated and the student can continue to exams.' },
-      { index: 2, nrc: '67890', email: 'example2@gmail.com', name: 'Jane Smith', photo: 'img2.jpg', description: 'All documents are verified. Student is eligible for finals.' }
-    ];
 
+  // Function to populate student cards (sample data for now)
+
+async function getData() {
+  const url = 'https://students-9af6.restdb.io/rest/students';
+  const apiKey = '512d1a743d5834ba317de004b76a998f5b04f';
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-apikey': apiKey
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: headers,
+      mode: 'cors',
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      console.log("error")
+    }
+
+    const data = await response.json();
+    // Process the retrieved data here
+    // Stringify the data before assigning to innerHTML
+    return data;
+  } catch (error) {
+     console.log("error")
+    return null;
+  }
+}
+
+function ApiData(apiData) {
+    // Convert apiData to an array
+  
+  const dataArray = apiData;
+  
+    return dataArray
+}
+
+async function validate() {
+  try {
+    const apiData = await getData();
+    if (apiData) {
+      return ApiData(apiData);
+    } else {
+      // Handle case where data retrieval fails
+      return false;
+    }
+  } catch (error) {
+    // Handle errors here
+    console.error('Error:', error);
+    return false;
+  }
+}
+
+async function populateStudentCards() {
+  try {
+    var students = await validate(); // Wait for the promise to resolve
     var cardsHtml = '';
     students.forEach(function(student) {
       cardsHtml += `
       <div class="col-md-4 mb-4">
         <div class="card">
-          <img src="${student.photo}" class="card-img-top" alt="${student.name}">
+          <img src="${student.photo}" class="card-img-top" alt="${student._id}">
           <div class="card-body">
             <h5 class="card-title">${student.name}</h5>
             <p class="card-text">Index: <span class="index">${student.index}</span></p>
@@ -95,10 +148,14 @@
     $('.deleteBtn').click(function() {
       $(this).closest('.col-md-4').remove();
     });
+  } catch (error) {
+    console.error('Error:', error);
+    // Handle errors here
   }
+}
 
-  // Call the function to populate student cards
-  populateStudentCards();
+// Call the function to populate student cards
+populateStudentCards();
 </script>
 
 </body>
