@@ -87,16 +87,16 @@
   <div class="login-container" id="login-form">
     <h2>Login to Your Account</h2>
     <span id='notify-login-success' style='display:none;'>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfull Registered!</strong> Head over to your email.
+      <div class="alert bg-success alert-dismissible fade show" role="alert">
+        <strong>Successfully Logged in<span id="success-message-login"></span></strong>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
     </span>
     <span id='notify-login-error' style='display:none;'>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Successfull Registered!</strong> Head over to your email.
+      <div class="alert bg-error alert-dismissible fade show" role="alert">
+        <strong>Failed to login!<span id="error-message-login"></span></strong> 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -108,8 +108,8 @@
         <input type="email" id="email-login">
       </div>
       <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password">
+        <label for="password-login">Password</label>
+        <input type="password" id="password-login">
       </div>
       <div class="form-group">
         <button type="submit">Sign In</button>
@@ -142,7 +142,7 @@
   <div class="login-container" style="display:none;" id="registration-form">
     <h2>Register for an Account</h2>
     <span id='notify-register-success' style='display:none;'>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <div class="alert bg-success alert-dismissible fade show" role="alert">
         <strong>Successfull Registered!</strong> Head over to your email.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -150,7 +150,7 @@
       </div>
     </span>
     <span id='notify-register-error' style='display:none;'>
-      <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <div class="alert bg-error alert-dismissible fade show" role="alert">
         <strong>Successfull Registered!</strong> Head over to your email.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -173,6 +173,14 @@
        <div class="form-group">
         <label for="password-register">Password</label>
         <input type="password" id="password-register" required>
+      </div>
+      <div class="form-group">
+        <label for="mock" class="form-label">Enter your mock results</label>
+  <input class="form-control form-control-sm" id="mock" type="file">
+      </div>
+      <div class="form-group">
+        <label for="payslip" class="form-label">Enter your payslip</label>
+  <input class="form-control form-control-sm" id="payslip" type="file">
       </div>
       <div class="form-group">
         <label for="cadre">Cadre</label>
@@ -238,7 +246,7 @@
   
   
   
-  <script src="main_nmcz.js"></script>
+  <script src="main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     // Initialize the history array
@@ -254,7 +262,7 @@
             promptInput.value = '';
 
             // Display user's prompt in chat window
-            const userMessage = `<div class="alert alert-primary" role="alert">${promptText}</div>`;
+            const userMessage = `<div class="alert bg.success" role="alert">${promptText}</div>`;
             chatMessages.innerHTML += userMessage;
 
             // Add user input to history
@@ -318,7 +326,7 @@ please provide your nrc number, and recheck your email for error, did you mean e
             
 
             const dataArray = responseData.split('\n');
-            alert("data got")
+           
             const texts = dataArray.map(item => {
                 const match = item.match(/\"text\":\"(.*?)\"/);
                 return match ? match[1].replace(/\\n/g, '<br>') : null;
@@ -329,7 +337,7 @@ please provide your nrc number, and recheck your email for error, did you mean e
           					history.push({ bot: responseText });
 
             // Display response in chat window as a single message
-            const responseMessage = `<div class="alert alert-warning" role="alert">${responseText}</div>`;
+            const responseMessage = `<div class="alert bg-primary" role="alert">${responseText}</div>`;
             chatMessages.innerHTML += responseMessage
             // Scroll to bottom of chat window
             chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -365,7 +373,7 @@ please provide your nrc number, and recheck your email for error, did you mean e
         };
       }
 
-      async function runVision() {
+      async function runVision(prompt,filename) {
         
       const generationConfig = {
           stopSequences: ["reply:"],
@@ -377,9 +385,9 @@ please provide your nrc number, and recheck your email for error, did you mean e
 
         const model = genAI.getGenerativeModel({ model: "gemini-pro-vision",  generationConfig });
 
-        const prompt = document.getElementById("prompt").value;
+        const prompt = prompt;
 
-        const fileInputEl = document.querySelector("#file");
+        const fileInputEl = document.querySelector(filename);
         const imageParts = await Promise.all(
           [...fileInputEl.files].map(fileToGenerativePart)
         );
@@ -408,6 +416,45 @@ please provide your nrc number, and recheck your email for error, did you mean e
         const text = response.text();
         return text
       }
+          
+     document.getElementById('registrationForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const formData = {
+    index: document.getElementById('index').value,
+    nrc: document.getElementById('nrc').value,
+    email: document.getElementById('email-register').value,
+    cadre: document.getElementById('cadre').value,
+      password: document.getElementById('password-register').value,
+      "mock results": runVision("what are the students grades:","#mock"),
+      payment: runVision("what is the amount paid:","payslip"),
+  };
+    
+
+  const success = document.getElementById('notify-register-success');
+  const error = document.getElementById('notify-register-error');
+
+  fetch('https://students-9af6.restdb.io/rest/students', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-apikey': '512d1a743d5834ba317de004b76a998f5b04f'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (!response.ok) {
+      error.style.display = 'block';
+    }
+    return response.json();
+  })
+  .then(data => {
+    success.style.display = 'block';
+  })
+  .catch(error => {   
+    error.style.display = 'block';
+    console.error('Error:', error);
+  });
+});
     </script>
 </body>
 </html>

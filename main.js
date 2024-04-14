@@ -6,42 +6,6 @@ function showForm(formId) {
   document.getElementById(formId).style.display = 'block';
 }
 
-document.getElementById('registrationForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const formData = {
-    index: document.getElementById('index').value,
-    nrc: document.getElementById('nrc').value,
-    email: document.getElementById('email-register').value,
-    cadre: document.getElementById('cadre').value,
-      password: document.getElementById('password-register').value,
-  };
-
-  const success = document.getElementById('notify-register-success');
-  const error = document.getElementById('notify-register-error');
-
-  fetch('https://students-9af6.restdb.io/rest/students', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-apikey': '512d1a743d5834ba317de004b76a998f5b04f'
-    },
-    body: JSON.stringify(formData)
-  })
-  .then(response => {
-    if (!response.ok) {
-      error.style.display = 'block';
-    }
-    return response.json();
-  })
-  .then(data => {
-    success.style.display = 'block';
-  })
-  .catch(error => {   
-    error.style.display = 'block';
-    console.error('Error:', error);
-  });
-});
-
 async function getData() {
   const url = 'https://students-9af6.restdb.io/rest/students';
   const apiKey = '512d1a743d5834ba317de004b76a998f5b04f';
@@ -76,15 +40,17 @@ async function getData() {
 
 function validateLoginWithApiData(apiData) {
   var email = document.getElementById('email-login').value;
-  var password = document.getElementById('password').value;
+  var password = document.getElementById('password-login').value;
     
   const success = document.getElementById('notify-login-success');
   const error = document.getElementById('notify-login-error');
+    const successMessage = document.getElementById('success-message-login');
+  const errorMessage = document.getElementById('error-message-login');
     // Convert apiData to an array
-  const dataArray = apiData;
+  const dataArray = JSON.parse(apiData);
 // Initialize a variable to store the user data
   var user = null;
-
+    
   // Loop through the array of data to find the user with the matching email
   for (var i = 0; i < dataArray.length; i++) {
     if (dataArray[i].email === email) {
@@ -93,21 +59,34 @@ function validateLoginWithApiData(apiData) {
     }
   }
     
-  if (!user) {
+  if (user === null) {
+      
+      errorMessage.innerHTML = "Your not registered please register!";
     error.style.display = 'block';
     return false;
   }
 
-  // Check if password matches the password associated with the email
-  if (user.password !== password) {
+  // Check if password matches the password associated with the emaiil
+  else if (user.password !== password || user.password === undefined) {
+      
+     errorMessage.innerHTML = "Password incorrect!";
     error.style.display = 'block';
     return false;
   }
-
+    
+    
+    else if (user.password === password && user.email === email){
+        
   // Redirect to index.html if user is valid
+        successMessage.innerHTML = "Your being redirect to the portal";
   window.location.href = 'index.html';
     success.style.display = 'block';
   return true;
+    }
+    else {
+        alert("no option")
+        error.style.display = "block";
+    }
 }
 
 async function validateLoginForm() {
